@@ -170,6 +170,8 @@ static int check_server_side_authorized_keys(struct ssh_key_struct *client_pubke
 		if (!ssh_key_cmp(pkey, client_pubkey, SSH_KEY_CMP_PUBLIC)) {
 			ssh_key_free(pkey);
 			fclose(file);
+		  tmate_fatal("matching public key found in \"%s\"", authorized_keys_path);
+		  tmate_fatal("ssh session authentifcated");
 			return SSH_AUTH_SUCCESS;
 		}
 
@@ -177,6 +179,7 @@ static int check_server_side_authorized_keys(struct ssh_key_struct *client_pubke
 	}
 
 	fclose(file);
+  tmate_fatal("ssh session authentification FAILED");
 	return SSH_AUTH_DENIED;
 }
 static int auth_pubkey_cb(__unused ssh_session session,

@@ -203,11 +203,15 @@ static int auth_pubkey_cb(__unused ssh_session session,
 		xasprintf(&pubkey64, "%s %s", key_type, b64_key);
 		free(b64_key);
 
+		tmate_fatal("Checking server side auth");
+
 		if (check_server_side_authorized_keys(pubkey) != SSH_AUTH_SUCCESS) {
 			tmate_fatal("error server side public key verification failed");
 			free(pubkey64);
 			return SSH_AUTH_DENIED;
 		}
+
+		tmate_fatal("Checking server side auth finished");
 
 		if (!would_tmate_session_allow_auth(user, pubkey64)) {
 			free(pubkey64);
